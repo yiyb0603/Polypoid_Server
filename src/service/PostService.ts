@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { Category } from "entity/category";
+import { PostDto } from "entity/dto/Post.dto";
 import { PostBoard } from "entity/post";
 import HttpError from "exception/HttpError";
 import IPostRepository from "interface/post";
 import { PostRepository } from "repository/PostRepository";
-import { IPostTypes } from "types/post";
 import { CategoryService } from "./CategoryService";
 
 @Injectable()
@@ -42,7 +42,7 @@ export class PostService implements IPostRepository {
     return post;
   }
 
-  public async createPost(request: IPostTypes): Promise<void> {
+  public async createPost(request: PostDto): Promise<void> {
     const { categoryIdx, title, contents, writerId, writerName } = request;
     const category: Category = await this.categoryService.getCategoryByIdx(categoryIdx);
 
@@ -56,7 +56,7 @@ export class PostService implements IPostRepository {
     await this.postRepository.save(post);
   }
 
-  public async modifyPost(idx: number, request: IPostTypes): Promise<void> {
+  public async modifyPost(idx: number, request: PostDto): Promise<void> {
     const post: PostBoard = await this.getPost(idx);
     const { categoryIdx, title, contents, writerId, writerName } = request;
 
@@ -69,11 +69,6 @@ export class PostService implements IPostRepository {
   }
 
   public async deletePost(idx: number): Promise<void> {
-    const postIdx: number = Number(idx);
-    if (!Number.isInteger(postIdx)) {
-      throw new HttpError(400, '검증 오류입니다.');
-    }
-
     const post: PostBoard = await this.getPost(idx);
     await this.postRepository.remove(post);
   }

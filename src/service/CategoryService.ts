@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { Category } from "entity/category";
+import { CategoryDto } from "entity/dto/Category.dto";
 import HttpError from "exception/HttpError";
 import { CategoryRepository } from "repository/CategoryRepository";
-import { ICategoryTypes } from 'types/category';
 
 @Injectable()
 export class CategoryService {
@@ -43,7 +43,7 @@ export class CategoryService {
     return categories;
   }
 
-  public async createCategory(request: ICategoryTypes): Promise<void> {
+  public async createCategory(request: CategoryDto): Promise<void> {
     const { name } = request;
 
     const existCategory: Category = await this.getCategoryByName(name);

@@ -28,6 +28,7 @@ export class PostBoard {
 
   @Column({
     nullable: false,
+    type: 'text',
   })
   contents: string;
 

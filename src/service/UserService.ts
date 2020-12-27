@@ -4,12 +4,13 @@ import { createToken } from "lib/Token";
 import { User } from "../entity/User";
 import { IAuthTypes } from "../types/user";
 import { UserRepository } from "../repository/UserRepository";
+import { AuthDto } from "entity/dto/Auth.dto";
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async signUp(request: IAuthTypes): Promise<User> {
+  public async signUp(request: AuthDto): Promise<User> {
     const { id, password, name } = request;
 
     const existUser = await this.getUser(id);
@@ -27,7 +28,7 @@ export class UserService {
     return user;
   }
 
-  public async signIn(request: IAuthTypes): Promise<string> {
+  public async signIn(request: AuthDto): Promise<string> {
     const { id, password } = request;
     const user: User = await this.getUserBySignIn(id, password);
 

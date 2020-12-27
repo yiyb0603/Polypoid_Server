@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res } from "@nestjs/common";
 import { Category } from "entity/category";
 import { CategoryService } from "service/CategoryService";
-import { ICategoryTypes } from 'types/category';
 import { disposeError } from 'lib/DisposeError';
 import { handleSuccess } from 'lib/Response/handleSuccess';
+import { CategoryDto } from 'entity/dto/Category.dto';
 
 @Controller('category')
 export class CategoryController {
@@ -23,7 +23,7 @@ export class CategoryController {
   }
 
   @Post('/')
-  public async createCategory(@Body() request: ICategoryTypes, @Res() response: Response) {
+  public async createCategory(@Body() request: CategoryDto, @Res() response: Response) {
     try {
       await this.categoryService.createCategory(request);
 
