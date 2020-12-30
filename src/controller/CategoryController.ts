@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { request, Request, Response } from 'express';
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res } from "@nestjs/common";
 import { Category } from "entity/category";
 import { CategoryService } from "service/CategoryService";
@@ -35,11 +35,9 @@ export class CategoryController {
   }
 
   @Put('/:idx')
-  public async modifyCategory(@Param('idx') idx: string, @Req() name: string, @Res() response: Response) {
+  public async modifyCategory(@Param('idx') idx: number, @Body() request: CategoryDto, @Res() response: Response) {
     try {
-      const categoryIdx: number = Number(idx);
-
-      await this.categoryService.modifyCategory(categoryIdx, name);
+      await this.categoryService.modifyCategory(idx, request);
       handleSuccess(response, 200, '카테고리를 수정하였습니다');
       return;
     } catch (error) {

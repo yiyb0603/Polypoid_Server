@@ -1,10 +1,6 @@
-import { IsNumber, IsString, IsOptional } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class PostDto {
-  @IsNumber()
-  @IsOptional()
-  readonly idx: number;
-
   @IsString()
   readonly title: string;
 

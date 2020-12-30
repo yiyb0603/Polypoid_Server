@@ -51,11 +51,9 @@ export class PostController {
   }
 
   @Put('/:idx')
-  public async modifyPost(@Req() request: Request, @Res() response: Response) {
+  public async modifyPost(@Param('idx') idx: number, @Body() request: PostDto, @Res() response: Response) {
     try {
-      const postIdx: number = Number(request.params.idx);
-
-      await this.postService.modifyPost(postIdx, request.body);
+      await this.postService.modifyPost(idx, request);
       handleSuccess(response, 200, '글을 수정하였습니다.');
       return;
     } catch (error) {

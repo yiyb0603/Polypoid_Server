@@ -56,11 +56,11 @@ export class CategoryService {
     await this.categoryRepository.save(category);
   }
 
-  public async modifyCategory(idx: number, name: string): Promise<void> {
+  public async modifyCategory(idx: number, request: CategoryDto): Promise<void> {
     const category: Category = await this.getCategoryByIdx(idx);
 
     category.idx = idx;
-    category.name = name;
+    category.name = request.name;
     await this.categoryRepository.save(category);
   }
 
