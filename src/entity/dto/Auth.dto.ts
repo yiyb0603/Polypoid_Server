@@ -2,13 +2,13 @@ import { IsString } from "class-validator";
 
 export class SignInDto {
   @IsString()
-  id: string;
+  readonly id: string;
   
   @IsString()
-  password: string;
+  readonly password: string;
 }
 
 export class SignUpDto extends SignInDto {
   @IsString()
-  name: string;
+  readonly name: string;
 }

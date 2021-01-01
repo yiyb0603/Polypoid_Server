@@ -4,18 +4,33 @@ import { UserService } from '../service/UserService';
 import { disposeError } from 'lib/DisposeError';
 import { handleSuccess } from 'lib/Response/handleSuccess';
 import { SignInDto, SignUpDto } from 'entity/dto/Auth.dto';
+import { IGoogleBody } from 'types/user';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('signin')
-  public async signIn(@Body() request: SignInDto, @Res() response: Response) {
+  @Post('googleSign')
+  public async googleSign(@Body() body: IGoogleBody, @Res() response: Response) {
     try {
-      const userToken: string = await this.userService.signIn(request);
+      const userToken: string = await this.userService.googleSign(body);
+      console.log(userToken);
       handleSuccess(response, 200, '로그인을 성공하였습니다.', { userToken });
       return;
     } catch (error) {
+      console.log(error);
+      disposeError(error, response);
+    }
+  }
+
+  @Post('signin')
+  public async signIn(@Body() body: SignInDto, @Res() response: Response) {
+    try {
+      const userToken: string = await this.userService.signIn(body);
+      handleSuccess(response, 200, '로그인을 성공하였습니다.', { userToken });
+      return;
+    } catch (error) {
+      console.log(error);
       disposeError(error, response);
     }
   }
