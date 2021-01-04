@@ -86,10 +86,6 @@ export class UserService {
         id,
       },
     });
-
-    if (!user && type !== 'google') {
-      throw new HttpError(404, "존재하는 회원이 없습니다.");
-    }
     
     return user;
   }
