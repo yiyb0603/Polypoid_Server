@@ -44,7 +44,7 @@ export class PostService implements IPostRepository {
 
   public async createPost(request: PostDto): Promise<void> {
     const { categoryIdx, title, contents, writerId, writerName } = request;
-    const category: Category = await this.categoryService.getCategoryByIdx(categoryIdx);
+    const category: Category = await this.categoryService.getCategoryByIdx(categoryIdx, '');
 
     const post: PostBoard = new PostBoard();
     post.category_idx = categoryIdx;
