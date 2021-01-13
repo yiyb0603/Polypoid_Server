@@ -14,7 +14,7 @@ export class PostService implements IPostRepository {
     private readonly categoryService: CategoryService,
   ) {}
 
-  public async getPosts(): Promise<PostBoard[]> {
+  public async getPosts(id: string): Promise<PostBoard[]> {
     const posts: PostBoard[] = await this.postRepository.find({
       select: [
         'idx',
@@ -22,13 +22,15 @@ export class PostService implements IPostRepository {
         'title',
         'writer_id',
         'writer_name',
+        'created_at',
+        'updated_at',
       ],
     });
 
     return posts;
   }
 
-  public async getPost(idx: number): Promise<PostBoard> {
+  public async getPost(idx: number, id: string): Promise<PostBoard> {
     const post: PostBoard = await this.postRepository.findOne({
       where: {
         idx,
@@ -42,7 +44,7 @@ export class PostService implements IPostRepository {
     return post;
   }
 
-  public async createPost(request: PostDto): Promise<void> {
+  public async createPost(request: PostDto, token: any): Promise<void> {
     const { categoryIdx, title, contents, writerId, writerName } = request;
     const category: Category = await this.categoryService.getCategoryByIdx(categoryIdx, '');
 
@@ -51,13 +53,15 @@ export class PostService implements IPostRepository {
     post.category_name = category.name;
     post.title = title;
     post.contents = contents;
-    post.writer_id = writerId;
-    post.writer_name = writerName;
+    post.writer_id = token.id;
+    post.writer_name = token.name;
+    post.created_at = new Date();
+    post.updated_at = null;
     await this.postRepository.save(post);
   }
 
-  public async modifyPost(idx: number, request: PostDto): Promise<void> {
-    const post: PostBoard = await this.getPost(idx);
+  public async modifyPost(idx: number, request: PostDto, token: any): Promise<void> {
+    const post: PostBoard = await this.getPost(idx, token.id);
     const { categoryIdx, title, contents, writerId, writerName } = request;
 
     post.category_idx = categoryIdx;
@@ -65,11 +69,12 @@ export class PostService implements IPostRepository {
     post.contents = contents;
     post.writer_id = writerId;
     post.writer_name = writerName;
+    post.updated_at = new Date();
     await this.postRepository.save(post);
   }
 
-  public async deletePost(idx: number): Promise<void> {
-    const post: PostBoard = await this.getPost(idx);
+  public async deletePost(idx: number, id: string): Promise<void> {
+    const post: PostBoard = await this.getPost(idx, id);
     await this.postRepository.remove(post);
   }
 }

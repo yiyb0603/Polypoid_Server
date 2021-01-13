@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Category } from "./category";
 import { User } from "./User";
 
@@ -45,4 +45,13 @@ export class PostBoard {
     nullable: false,
   })
   writer_name: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn({
+    nullable: true,
+    default: null,
+  })
+  updated_at: Date;
 }
