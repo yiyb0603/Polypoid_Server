@@ -9,6 +9,7 @@ export class CatchException implements ExceptionFilter {
     const response = ctx.getResponse();
 
     let customError: HttpError | any = {};
+    console.log(exception);
 
     if (exception instanceof HttpError) {
       customError = {

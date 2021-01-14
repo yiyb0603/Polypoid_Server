@@ -14,7 +14,6 @@ export class PostController {
   @Get('/')
   public async getPosts(@Headers() header, @Res() response: Response) {
     const token: any = decodeToken(String(header['polypoid-token']));
-    console.log(token);
 
     const posts: PostBoard[] = await this.postService.getPosts(token.id);
     handleSuccess(response, 200, '글 목록을 조회하였습니다.', { posts });

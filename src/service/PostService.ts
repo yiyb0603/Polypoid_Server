@@ -25,6 +25,14 @@ export class PostService implements IPostRepository {
         'created_at',
         'updated_at',
       ],
+
+      where: {
+        writer_id: id,
+      },
+
+      order: {
+        created_at: 'DESC',
+      },
     });
 
     return posts;
@@ -34,6 +42,7 @@ export class PostService implements IPostRepository {
     const post: PostBoard = await this.postRepository.findOne({
       where: {
         idx,
+        writer_id: id,
       },
     });
 
@@ -45,12 +54,12 @@ export class PostService implements IPostRepository {
   }
 
   public async createPost(request: PostDto, token: any): Promise<void> {
-    const { categoryIdx, title, contents, writerId, writerName } = request;
-    const category: Category = await this.categoryService.getCategoryByIdx(categoryIdx, '');
+    const { title, contents } = request;
+    // const category: Category = await this.categoryService.getCategoryByIdx(categoryIdx, '');
 
     const post: PostBoard = new PostBoard();
-    post.category_idx = categoryIdx;
-    post.category_name = category.name;
+    // post.category_idx = categoryIdx;
+    // post.category_name = category.name;
     post.title = title;
     post.contents = contents;
     post.writer_id = token.id;
@@ -62,13 +71,13 @@ export class PostService implements IPostRepository {
 
   public async modifyPost(idx: number, request: PostDto, token: any): Promise<void> {
     const post: PostBoard = await this.getPost(idx, token.id);
-    const { categoryIdx, title, contents, writerId, writerName } = request;
+    const { title, contents } = request;
 
-    post.category_idx = categoryIdx;
+    // post.category_idx = categoryIdx;
     post.title = title;
     post.contents = contents;
-    post.writer_id = writerId;
-    post.writer_name = writerName;
+    post.writer_id = token.id;
+    post.writer_name = token.name;
     post.updated_at = new Date();
     await this.postRepository.save(post);
   }

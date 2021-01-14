@@ -7,12 +7,6 @@ export class PostDto {
   @IsString()
   readonly contents: string;
 
-  @IsNumber()
-  readonly categoryIdx: number;
-
-  @IsString()
-  readonly writerId: string;
-
-  @IsString()
-  readonly writerName: string;
+  // @IsNumber()
+  // readonly categoryIdx: number;
 }

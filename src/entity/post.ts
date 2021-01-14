@@ -7,19 +7,19 @@ export class PostBoard {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @ManyToOne(() => Category, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'category_idx' })
-  category: Category;
+  // @ManyToOne(() => Category, { onDelete: 'CASCADE' })
+  // @JoinColumn({ name: 'category_idx' })
+  // category: Category;
 
-  @Column({
-    nullable: false,
-  })
-  category_idx: number;
+  // @Column({
+  //   nullable: false,
+  // })
+  // category_idx: number;
 
-  @Column({
-    nullable: false,
-  })
-  category_name: string;
+  // @Column({
+  //   nullable: false,
+  // })
+  // category_name: string;
 
   @Column({
     nullable: false,
@@ -32,7 +32,7 @@ export class PostBoard {
   })
   contents: string;
 
-  @ManyToOne(() => User, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'writer_id' })
   user: User;
 
